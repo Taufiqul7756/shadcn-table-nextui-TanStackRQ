@@ -27,3 +27,7 @@
   - NextUI modal added
   - Modal Added
   - Fully Responsive
+
+- Version 1.0.2
+
+  - Modal Fixed

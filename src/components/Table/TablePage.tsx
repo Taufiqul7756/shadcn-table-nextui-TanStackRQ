@@ -225,6 +225,8 @@ const TablePage: React.FC = () => {
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
+        backdrop="opaque"
+        placement="center"
         className="h-100 w-100 p-5 bg-slate-100"
         classNames={{
           backdrop:
