@@ -5,9 +5,10 @@
 - shadcn Table
 - shadcn pagination
 - nextui button
+- nextui Modal
 - Axios
 
-## caching Technologies
+## Caching Technologies
 
 - TanStack Queries
 - Paginated Queries
@@ -25,3 +26,4 @@
 
   - NextUI modal added
   - Modal Added
+  - Fully Responsive

@@ -45,7 +45,12 @@ type User = {
   email: string;
   role: string;
   image: string;
-  phone: number;
+  phone: string;
+  bloodGroup: string;
+  address: {
+    address: string;
+    country: string;
+  };
 };
 
 const TablePage: React.FC = () => {
@@ -217,13 +222,10 @@ const TablePage: React.FC = () => {
       </Pagination>
 
       {/* Modal Section */}
-
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        // backdrop="blur"
-        // placement="top"
-        className=" w-100 h-96 p-5 bg-slate-100 mt-32"
+        className="h-100 w-100 p-5 bg-slate-100"
         classNames={{
           backdrop:
             "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
@@ -255,43 +257,48 @@ const TablePage: React.FC = () => {
               <ModalHeader className="flex flex-col gap-1 p-2">
                 User Details
               </ModalHeader>
+
               <ModalBody>
                 {selectedUser && (
-                  <div>
+                  <div className="flex flex-col items-center gap-4">
                     <img
                       src={selectedUser.image}
                       alt={`${selectedUser.firstName} ${selectedUser.lastName}`}
-                      className="w-10 h-10 rounded-full mr-4"
+                      className="w-32 h-32 rounded-full"
                     />
-                    <p>
-                      <strong>ID:</strong> {selectedUser.id}
-                    </p>
-                    <p>
-                      <strong>Name:</strong> {selectedUser.firstName}{" "}
-                      {selectedUser.maidenName} {selectedUser.lastName}
-                    </p>
-                    <p>
-                      <strong>Email:</strong> {selectedUser.email}
-                    </p>
-                    <p>
-                      <strong>Role:</strong> {selectedUser.role}
-                    </p>
-                    <p>
-                      <strong>Age:</strong> {selectedUser.age}
-                    </p>
-                    <p>
-                      <strong>Phone:</strong> {selectedUser.phone}
-                    </p>
+                    <div className="grid justify-center items-center gap-2">
+                      <p>
+                        <strong>Name:</strong> {selectedUser.firstName}{" "}
+                        {selectedUser.maidenName} {selectedUser.lastName}
+                      </p>
+                      <p>
+                        <strong>Email:</strong> {selectedUser.email}
+                      </p>
+                      <p>
+                        <strong>Blood Group:</strong> {selectedUser.bloodGroup}
+                      </p>
+                      <p>
+                        <strong>Phone:</strong> {selectedUser.phone}
+                      </p>
+                      <p>
+                        <strong>Role:</strong> {selectedUser.role}
+                      </p>
+                      <p>
+                        <strong>Address:</strong> {selectedUser.address.address}
+                        , {selectedUser.address.country}
+                      </p>
+                    </div>
                   </div>
                 )}
               </ModalBody>
-              <ModalFooter>
-                <div className="flex justify-center items-center gap-5">
-                  <Button color="danger" variant="light" onPress={onClose}>
+              <ModalFooter className="mt-10">
+                <div className="flex justify-end items-end">
+                  <Button
+                    className="rounded-md"
+                    color="primary"
+                    onPress={onClose}
+                  >
                     Close
-                  </Button>
-                  <Button color="primary" onPress={onClose}>
-                    Action
                   </Button>
                 </div>
               </ModalFooter>
