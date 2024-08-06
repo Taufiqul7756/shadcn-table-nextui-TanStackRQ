@@ -217,23 +217,52 @@ const TablePage: React.FC = () => {
       </Pagination>
 
       {/* Modal Section */}
+
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        size="sm"
-        backdrop="blur"
-        placement="center"
-        className=""
+        // backdrop="blur"
+        // placement="top"
+        className=" w-100 h-96 p-5 bg-slate-100 mt-32"
+        classNames={{
+          backdrop:
+            "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+        }}
+        motionProps={{
+          variants: {
+            enter: {
+              y: 0,
+              opacity: 1,
+              transition: {
+                duration: 0.3,
+                ease: "easeOut",
+              },
+            },
+            exit: {
+              y: -20,
+              opacity: 0,
+              transition: {
+                duration: 0.2,
+                ease: "easeIn",
+              },
+            },
+          },
+        }}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader className="flex flex-col gap-1 p-2">
                 User Details
               </ModalHeader>
               <ModalBody>
                 {selectedUser && (
                   <div>
+                    <img
+                      src={selectedUser.image}
+                      alt={`${selectedUser.firstName} ${selectedUser.lastName}`}
+                      className="w-10 h-10 rounded-full mr-4"
+                    />
                     <p>
                       <strong>ID:</strong> {selectedUser.id}
                     </p>
@@ -257,12 +286,14 @@ const TablePage: React.FC = () => {
                 )}
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
-                </Button>
+                <div className="flex justify-center items-center gap-5">
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                  <Button color="primary" onPress={onClose}>
+                    Action
+                  </Button>
+                </div>
               </ModalFooter>
             </>
           )}

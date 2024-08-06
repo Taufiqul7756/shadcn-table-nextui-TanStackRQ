@@ -24,3 +24,4 @@
 - Version 1.0.1
 
   - NextUI modal added
+  - Modal Added
