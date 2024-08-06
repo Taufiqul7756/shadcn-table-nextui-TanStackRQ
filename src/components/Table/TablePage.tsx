@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useState } from "react";
@@ -5,12 +6,10 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
-  TableHead,
   TableHeader,
   TableRow,
+  TableHead,
 } from "@/components/ui/table";
 import {
   Pagination,
@@ -24,10 +23,18 @@ import {
   PaginationFirst,
 } from "@/components/ui/pagination";
 import { fetchUsers } from "../../app/utils/service";
-
 import { MdDeleteOutline } from "react-icons/md";
 import { IoEyeOutline } from "react-icons/io5";
 import { AiOutlineEdit } from "react-icons/ai";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
 
 type User = {
   id: number;
@@ -38,11 +45,15 @@ type User = {
   email: string;
   role: string;
   image: string;
+  phone: number;
 };
 
 const TablePage: React.FC = () => {
   const [page, setPage] = useState(1);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const limit = 5;
+
   const { data, error, isLoading } = useQuery({
     queryKey: ["users", page],
     queryFn: () => fetchUsers(page, limit),
@@ -119,25 +130,29 @@ const TablePage: React.FC = () => {
     return pageNumbers;
   };
 
+  const handleViewUser = (user: User) => {
+    setSelectedUser(user);
+    onOpen();
+  };
+
   return (
-    <div className="py-20 px-44 ">
+    <div className="py-20 lg:px-72 md:px-16 sm:px-2 ">
       <div className="flex justify-center items-center font-bold text-2xl pb-5">
         <h1>User Table</h1>
       </div>
+      {/* Table Section */}
       <Table className="border border-spacing-2">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">ID</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Role</TableHead>
-            <TableHead>Age</TableHead>
+            <TableHead>Phone</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {users.map((user) => (
             <TableRow key={user.id}>
-              <TableCell className="font-medium">{user.id}</TableCell>
               <TableCell>
                 <div className="flex justify-start items-center">
                   <img
@@ -146,8 +161,6 @@ const TablePage: React.FC = () => {
                     className="w-10 h-10 rounded-full mr-4"
                   />
                   <div className="grid">
-                    {/* <Image src={user?.image} alt="img" width={5} height={5} /> */}
-
                     <span className="font-semibold">
                       {user.firstName} {user.maidenName} {user.lastName}
                     </span>
@@ -156,12 +169,13 @@ const TablePage: React.FC = () => {
                 </div>
               </TableCell>
               <TableCell>{user.role}</TableCell>
-              <TableCell>{user.age}</TableCell>
+              <TableCell>{user.phone}</TableCell>
               <TableCell>
                 <div className="flex justify-start items-center gap-4">
                   <IoEyeOutline
                     className="cursor-pointer text-green-600"
                     size={18}
+                    onClick={() => handleViewUser(user)}
                   />
                   <AiOutlineEdit
                     className="cursor-pointer text-blue-600"
@@ -177,26 +191,83 @@ const TablePage: React.FC = () => {
           ))}
         </TableBody>
       </Table>
-      <Pagination className="mt-4">
+      {/* Pagination Section */}
+      <Pagination className="mt-8 flex justify-center items-center lg:gap-5 md:gap-3 sm:gap-0 ">
         <PaginationFirst
+          className="cursor-pointer"
           onClick={() => setPage((old) => Math.max(old - 1, 1))}
           aria-disabled={page === 1}
         />
         <PaginationPrevious
+          className="cursor-pointer"
           onClick={() => setPage((old) => Math.max(old - 1, 1))}
           aria-disabled={page === 1}
         />
         <PaginationContent>{renderPageNumbers()}</PaginationContent>
         <PaginationNext
+          className="cursor-pointer"
           onClick={() => setPage((old) => Math.min(old + 1, totalPages))}
           aria-disabled={page === totalPages}
         />
-
         <PaginationLast
+          className="cursor-pointer"
           onClick={() => setPage((old) => Math.max(old - 1, 1))}
           aria-disabled={page === 1}
         />
       </Pagination>
+
+      {/* Modal Section */}
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        size="sm"
+        backdrop="blur"
+        placement="center"
+        className=""
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                User Details
+              </ModalHeader>
+              <ModalBody>
+                {selectedUser && (
+                  <div>
+                    <p>
+                      <strong>ID:</strong> {selectedUser.id}
+                    </p>
+                    <p>
+                      <strong>Name:</strong> {selectedUser.firstName}{" "}
+                      {selectedUser.maidenName} {selectedUser.lastName}
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {selectedUser.email}
+                    </p>
+                    <p>
+                      <strong>Role:</strong> {selectedUser.role}
+                    </p>
+                    <p>
+                      <strong>Age:</strong> {selectedUser.age}
+                    </p>
+                    <p>
+                      <strong>Phone:</strong> {selectedUser.phone}
+                    </p>
+                  </div>
+                )}
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="primary" onPress={onClose}>
+                  Action
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
