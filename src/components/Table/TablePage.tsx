@@ -200,8 +200,7 @@ const TablePage: React.FC = () => {
       <Pagination className="mt-8 flex justify-center items-center lg:gap-5 md:gap-3 sm:gap-0 ">
         <PaginationFirst
           className="cursor-pointer"
-          onClick={() => setPage((old) => Math.max(old - 1, 1))}
-          aria-disabled={page === 1}
+          onClick={() => setPage(1)}
         />
         <PaginationPrevious
           className="cursor-pointer"
@@ -216,8 +215,7 @@ const TablePage: React.FC = () => {
         />
         <PaginationLast
           className="cursor-pointer"
-          onClick={() => setPage((old) => Math.max(old - 1, 1))}
-          aria-disabled={page === 1}
+          onClick={() => setPage(totalPages)}
         />
       </Pagination>
 
@@ -228,10 +226,10 @@ const TablePage: React.FC = () => {
         backdrop="opaque"
         placement="center"
         className="h-100 w-100 p-5 bg-slate-100"
-        // classNames={{
-        //   backdrop:
-        //     "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
-        // }}
+        classNames={{
+          backdrop:
+            "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+        }}
         motionProps={{
           variants: {
             enter: {

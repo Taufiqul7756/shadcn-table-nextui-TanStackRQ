@@ -31,3 +31,4 @@
 - Version 1.0.2
 
   - Modal Fixed
+  - Pagination - First and last page jump fixed
