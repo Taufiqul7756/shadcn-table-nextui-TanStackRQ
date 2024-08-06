@@ -228,10 +228,10 @@ const TablePage: React.FC = () => {
         backdrop="opaque"
         placement="center"
         className="h-100 w-100 p-5 bg-slate-100"
-        classNames={{
-          backdrop:
-            "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
-        }}
+        // classNames={{
+        //   backdrop:
+        //     "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+        // }}
         motionProps={{
           variants: {
             enter: {
